@@ -1,11 +1,13 @@
 package com.mural.devifeed
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mural.devifeed.dummy.DummyContent
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.mural.devifeed.model.FeedPost
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
@@ -20,7 +22,7 @@ class ItemDetailFragment : Fragment() {
     /**
      * The dummy content this fragment is presenting.
      */
-    private var item: DummyContent.DummyItem? = null
+    private var item: FeedPost? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +32,9 @@ class ItemDetailFragment : Fragment() {
                 // Load the dummy content specified by the fragment
                 // arguments. In a real-world scenario, use a Loader
                 // to load content from a content provider.
-                item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
-                activity?.toolbar_layout?.title = item?.content
+                item = it.getParcelable(ARG_ITEM_ID)
+                activity?.toolbar_layout?.title =
+                    resources.getString(R.string.post_by, item?.author)
             }
         }
     }
@@ -44,7 +47,12 @@ class ItemDetailFragment : Fragment() {
 
         // Show the dummy content as text in a TextView.
         item?.let {
-            rootView.item_detail.text = it.details
+            rootView.item_detail.text = it.title
+            context?.apply {
+                Glide.with(this)
+                    .load(it.thumbnailUrl).apply(RequestOptions().centerInside())
+                    .into(rootView.picture)
+            }
         }
 
         return rootView

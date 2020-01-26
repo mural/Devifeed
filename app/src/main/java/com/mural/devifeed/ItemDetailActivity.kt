@@ -2,9 +2,9 @@ package com.mural.devifeed
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_item_detail.*
 
 /**
@@ -21,7 +21,7 @@ class ItemDetailActivity : AppCompatActivity() {
         setSupportActionBar(detail_toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "Dismiss post (not ready)", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
 
@@ -42,9 +42,9 @@ class ItemDetailActivity : AppCompatActivity() {
             // using a fragment transaction.
             val fragment = ItemDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putString(
+                    putParcelable(
                         ItemDetailFragment.ARG_ITEM_ID,
-                        intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
+                        intent.getParcelableExtra(ItemDetailFragment.ARG_ITEM_ID)
                     )
                 }
             }
