@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Devifeed</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="post_by">Post by: %s</string>
+    <string name="number_of_comments">Comments: %s</string>
+    <string name="post_time_hours">%s hour/s ago</string>
+    <string name="post_time_recent">less than 1 hour</string>
 </resources>

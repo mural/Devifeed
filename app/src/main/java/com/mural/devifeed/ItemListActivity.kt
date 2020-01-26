@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
@@ -30,6 +31,7 @@ import com.mural.devifeed.repository.FeedRepository
 import com.mural.devifeed.viewmodel.FeedViewModel
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list.*
+import java.util.*
 import java.util.concurrent.Executors
 
 /**
@@ -127,28 +129,6 @@ class ItemListActivity : AppCompatActivity() {
     ) :
         PagedListAdapter<FeedPost, SimpleItemRecyclerViewAdapter.PostViewHolder>(FEED_COMPARATOR) {
 
-        init {
-//            onClickListener = View.OnClickListener { v ->
-//                val item = v.tag as DummyContent.DummyItem
-//                if (twoPane) {
-//                    val fragment = ItemDetailFragment().apply {
-//                        arguments = Bundle().apply {
-//                            putString(ItemDetailFragment.ARG_ITEM_ID, item.id)
-//                        }
-//                    }
-//                    parentActivity.supportFragmentManager
-//                        .beginTransaction()
-//                        .replace(R.id.item_detail_container, fragment)
-//                        .commit()
-//                } else {
-//                    val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
-//                        putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id)
-//                    }
-//                    v.context.startActivity(intent)
-//                }
-//            }
-        }
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val itemBinding = ItemPostBinding.inflate(layoutInflater, parent, false)
@@ -199,6 +179,17 @@ class ItemListActivity : AppCompatActivity() {
                 Glide.with(view.context)
                     .load(imageUrl).apply(RequestOptions().circleCrop())
                     .into(view)
+            }
+
+            @BindingAdapter("timeAgo")
+            @JvmStatic
+            fun TextView.setDateText(timeAgo: Long) {
+                val timeDifInSeconds = (Date().time / 1000) - timeAgo
+                val timeDifInHours = timeDifInSeconds / 3600 //hour has 3600 secs
+                text = when (timeDifInHours) {
+                    0L -> resources.getString(R.string.post_time_recent)
+                    else -> resources.getString(R.string.post_time_hours, timeDifInHours.toString())
+                }
             }
         }
     }
