@@ -10,8 +10,8 @@ import com.mural.devifeed.repository.FeedRepository
 class FeedViewModel(
     private val repository: FeedRepository,
     savedStateHandle: SavedStateHandle,
-    val twoPane: Boolean,
-    val parentActivity: ItemListActivity
+    var twoPane: Boolean,
+    var parentActivity: ItemListActivity
 ) : ViewModel() {
     companion object {
         const val KEY_SUBREDDIT = "subreddit"

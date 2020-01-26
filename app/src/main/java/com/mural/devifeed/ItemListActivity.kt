@@ -74,12 +74,16 @@ class ItemListActivity : AppCompatActivity() {
             Snackbar.make(view, "Dismiss all (not ready)", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
-        if (item_detail_container != null) {
-            twoPane = true
-        }
 
         setupRecyclerView(item_list)
         setupSwipeToRefresh()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        twoPane = item_detail_container != null
+        viewModel.twoPane = twoPane
+        viewModel.parentActivity = this
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -94,6 +98,7 @@ class ItemListActivity : AppCompatActivity() {
                 }
             }
         })
+        //TODO add error flow
     }
 
     private fun setupSwipeToRefresh() {

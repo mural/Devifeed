@@ -52,6 +52,7 @@ class ItemDetailFragment : Fragment() {
                 Glide.with(this)
                     .load(it.thumbnailUrl).apply(RequestOptions().centerInside())
                     .into(rootView.picture)
+                //TODO change with full image
             }
         }
 
