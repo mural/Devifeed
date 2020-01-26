@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
@@ -16,6 +18,8 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import com.mural.devifeed.api.DevifeedApi
 import com.mural.devifeed.api.NetworkState
@@ -187,6 +191,14 @@ class ItemListActivity : AppCompatActivity() {
 
                 override fun areItemsTheSame(oldItem: FeedPost, newItem: FeedPost): Boolean =
                     oldItem.id == newItem.id
+            }
+
+            @BindingAdapter("profileImage")
+            @JvmStatic
+            fun loadImage(view: ImageView, imageUrl: String) {
+                Glide.with(view.context)
+                    .load(imageUrl).apply(RequestOptions().circleCrop())
+                    .into(view)
             }
         }
     }
